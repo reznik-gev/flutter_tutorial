@@ -67,35 +67,37 @@ class _MyHomePageState extends State<MyHomePage> {
         throw UnimplementedError('No widget for $selectedIndex');
     }
 
-    return Scaffold(
-      body: Row(
-        children: [
-          SafeArea(
-            child: NavigationRail(
-              extended: true,
-              destinations: [
-                NavigationRailDestination(
-                    icon: Icon(Icons.home), label: Text('Home')),
-                NavigationRailDestination(
-                    icon: Icon(Icons.favorite), label: Text('Favorites')),
-              ],
-              selectedIndex: selectedIndex,
-              onDestinationSelected: (value) {
-                setState(() {
-                  print('Selected index: $value');
-                  selectedIndex = value;
-                });
-              },
+    return LayoutBuilder(builder: (context, constraints) {
+      return Scaffold(
+        body: Row(
+          children: [
+            SafeArea(
+              child: NavigationRail(
+                extended: constraints.maxWidth >= 600,
+                destinations: [
+                  NavigationRailDestination(
+                      icon: Icon(Icons.home), label: Text('Home')),
+                  NavigationRailDestination(
+                      icon: Icon(Icons.favorite), label: Text('Favorites')),
+                ],
+                selectedIndex: selectedIndex,
+                onDestinationSelected: (value) {
+                  setState(() {
+                    print('Selected index: $value');
+                    selectedIndex = value;
+                  });
+                },
+              ),
             ),
-          ),
-          Expanded(
-              child: Container(
-            color: Theme.of(context).colorScheme.primaryContainer,
-            child: selectedPage,
-          ))
-        ],
-      ),
-    );
+            Expanded(
+                child: Container(
+              color: Theme.of(context).colorScheme.primaryContainer,
+              child: selectedPage,
+            ))
+          ],
+        ),
+      );
+    });
   }
 }
 
