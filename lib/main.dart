@@ -45,9 +45,28 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  var selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    Widget selectedPage;
+    switch (selectedIndex) {
+      case 0:
+        selectedPage = GeneratorPage();
+        break;
+      case 1:
+        selectedPage = Placeholder();
+        break;
+      default:
+        throw UnimplementedError('No widget for $selectedIndex');
+    }
+
     return Scaffold(
       body: Row(
         children: [
@@ -60,16 +79,19 @@ class MyHomePage extends StatelessWidget {
                 NavigationRailDestination(
                     icon: Icon(Icons.favorite), label: Text('Favorites')),
               ],
-              selectedIndex: 0,
+              selectedIndex: selectedIndex,
               onDestinationSelected: (value) {
-                print('Selected index: $value');
+                setState(() {
+                  print('Selected index: $value');
+                  selectedIndex = value;
+                });
               },
             ),
           ),
           Expanded(
               child: Container(
             color: Theme.of(context).colorScheme.primaryContainer,
-            child: GeneratorPage(),
+            child: selectedPage,
           ))
         ],
       ),
