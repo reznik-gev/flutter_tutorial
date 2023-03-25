@@ -257,18 +257,31 @@ class BigCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final style = theme.textTheme.displayMedium!
-        .copyWith(color: theme.colorScheme.onPrimary);
+    final firstStyle = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+      fontWeight: FontWeight.normal,
+    );
+    final secondStyle = theme.textTheme.displayMedium!.copyWith(
+      color: theme.colorScheme.onPrimary,
+      fontWeight: FontWeight.bold,
+    );
 
     return Card(
       color: theme.colorScheme.primary,
       elevation: 5.0,
       child: Padding(
         padding: EdgeInsets.all(padding),
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-          semanticsLabel: "${pair.first} ${pair.second}",
+        child: Wrap(
+          children: [
+            Text(
+              pair.first,
+              style: firstStyle,
+            ),
+            Text(
+              pair.second,
+              style: secondStyle,
+            ),
+          ],
         ),
       ),
     );
